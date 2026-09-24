@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="fil">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Pagsusulit sa Pagsasalita</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #eef3f1;
+    --surface: #ffffff;
+    --ink: #1d2b27;
+    --ink-soft: #5b6b66;
+    --teal: #2b6777;
+    --teal-dark: #1d4a56;
+    --marigold: #d98a34;
+    --coral: #c85342;
+    --green: #3f8f60;
+    --border: #d9e1de;
+    color-scheme: light;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-sizing: border-box;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #14201d;
+      --surface: #1c2b27;
+      --ink: #eef3f1;
+      --ink-soft: #9fb0ab;
+      --teal: #6fb4c4;
+      --teal-dark: #8ecad8;
+      --marigold: #e6a765;
+      --coral: #e0776a;
+      --green: #6cbb8e;
+      --border: #2d3f3a;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #14201d; --surface: #1c2b27; --ink: #eef3f1; --ink-soft: #9fb0ab;
+    --teal: #6fb4c4; --teal-dark: #8ecad8; --marigold: #e6a765; --coral: #e0776a;
+    --green: #6cbb8e; --border: #2d3f3a;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    display: flex;
+    justify-content: center;
+    min-height: 100%;
+  }
+  .app {
+    width: 100%;
+    max-width: 560px;
+    padding: 28px 20px 40px;
+  }
+  h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; margin: 0; }
+  .steps {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 28px;
+  }
+  .steps .dot {
+    flex: 1;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border);
+    transition: background .3s ease;
+  }
+  .steps .dot.done { background: var(--teal); }
+  .steps .dot.active { background: var(--marigold); }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 32px 28px;
+  }
+  .eyebrow { color: var(--teal); font-size: 14px; margin-bottom: 6px; }
+  h1 { font-size: 28px; line-height: 1.25; }
+  h2 { font-size: 22px; line-height: 1.3; }
+  p { line-height: 1.6; color: var(--ink-soft); }
+  .passage {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 19px;
+    line-height: 1.75;
+    color: var(--ink);
+    background: var(--bg);
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin: 18px 0;
+  }
+  .prompt-text {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 21px;
+    color: var(--ink);
+    margin: 18px 0;
+    line-height: 1.5;
+  }
+  button {
+    font-family: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 999px;
+    border: none;
+    padding: 13px 26px;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  button:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+  .btn-primary {
+    background: var(--teal);
+    color: #fff;
+    font-weight: 500;
+  }
+  .btn-primary:hover:not(:disabled) { box-shadow: 0 4px 14px rgba(43,103,119,.28); }
+  .btn-primary:disabled { background: var(--border); color: var(--ink-soft); cursor: not-allowed; }
+  .btn-mic {
+    background: var(--surface);
+    border: 1.5px solid var(--teal);
+    color: var(--teal-dark);
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-mic.recording {
+    background: var(--coral);
+    border-color: var(--coral);
+    color: #fff;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(200,83,66,.35); }
+    50% { box-shadow: 0 0 0 10px rgba(200,83,66,0); }
+  }
+  .row { display: flex; justify-content: space-between; align-items: center; margin-top: 22px; flex-wrap: wrap; gap: 12px; }
+  .transcript {
+    min-height: 48px;
+    margin-top: 14px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: var(--bg);
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .transcript:empty::before { content: "Lalabas dito ang iyong sinasabi habang nagre-record ka."; opacity: .7; }
+  .hint { font-size: 14px; color: var(--ink-soft); margin-top: 10px; }
+
+  .score-hero { text-align: center; margin-bottom: 26px; }
+  .score-hero .num { font-family: 'Fraunces', Georgia, serif; font-size: 56px; font-weight: 600; color: var(--teal-dark); }
+  .score-hero .label { color: var(--ink-soft); font-size: 15px; }
+
+  .criteria { display: flex; flex-direction: column; gap: 16px; }
+  .criterion .top { display: flex; justify-content: space-between; font-size: 15px; margin-bottom: 6px; }
+  .criterion .top .name { font-weight: 500; }
+  .criterion .top .val { color: var(--ink-soft); }
+  .bar { height: 8px; border-radius: 4px; background: var(--border); overflow: hidden; }
+  .bar > span { display: block; height: 100%; border-radius: 4px; background: var(--teal); transition: width .6s ease; }
+  .criterion .note { font-size: 13px; color: var(--ink-soft); margin-top: 5px; }
+
+  .screen { display: none; }
+  .screen.visible { display: block; }
+
+  @media (max-width: 420px) {
+    .card { padding: 24px 20px; }
+    h1 { font-size: 24px; }
+    .score-hero .num { font-size: 46px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="steps" id="steps">
+    <div class="dot" data-step="0"></div>
+    <div class="dot" data-step="1"></div>
+    <div class="dot" data-step="2"></div>
+    <div class="dot" data-step="3"></div>
+  </div>
+
+  <section id="screen-intro" class="screen visible card">
+    <p class="eyebrow">Diagnostic na Pagsusulit</p>
+    <h1>Pagsusulit sa Pagsasalita</h1>
+    <p>May dalawang bahagi: babasahin mo nang malakas ang isang maikling talata, at pagkatapos ay sasagutin mo ang isang tanong sa sarili mong mga salita. Kailangan ng access sa mikropono.</p>
+    <div class="row" style="justify-content:flex-end;">
+      <button class="btn-primary" id="btn-start">Simulan ang pagsusulit</button>
+    </div>
+  </section>
+
+  <section id="screen-passage" class="screen card">
+    <p class="eyebrow">Bahagi 1 · Pagbasa nang Malakas</p>
+    <h2>Basahin nang malakas ang sumusunod na talata</h2>
+    <p class="passage" id="passage-text">Tuwing umaga, sinasakyan ni Ana ang traysikel patungo sa paaralan. Dumadaan siya sa maliit na palengke kung saan nagtitinda ng sariwang prutas at gulay. Bago pumasok sa silid-aralan, binabati niya ang kanyang mga kaibigan at guro nang may ngiti.</p>
+    <button class="btn-mic" id="btn-mic-passage">🎙️ Mag-record</button>
+    <div class="transcript" id="transcript-passage"></div>
+    <p class="hint">I-record ang sarili habang binabasa ang buong talata, pagkatapos ay itigil ang recording.</p>
+    <div class="row">
+      <span></span>
+      <button class="btn-primary" id="btn-next-passage" disabled>Susunod</button>
+    </div>
+  </section>
+
+  <section id="screen-question" class="screen card">
+    <p class="eyebrow">Bahagi 2 · Malayang Pagsasalita</p>
+    <h2>Sagutin ang tanong sa sarili mong mga salita</h2>
+    <p class="prompt-text" id="q-text">Ilarawan ang isang karaniwang araw sa iyong buhay.</p>
+    <button class="btn-mic" id="btn-mic-question">🎙️ Mag-record</button>
+    <div class="transcript" id="transcript-question"></div>
+    <p class="hint">Magsalita nang mga 30–60 segundo. Walang tamang sagot — ang mahalaga ay kung paano mo ito ipapahayag.</p>
+    <div class="row">
+      <span></span>
+      <button class="btn-primary" id="btn-next-question" disabled>Tingnan ang resulta</button>
+    </div>
+  </section>
+
+  <section id="screen-results" class="screen card">
+    <p class="eyebrow">Resulta</p>
+    <div class="score-hero">
+      <div class="num" id="overall-num">–</div>
+      <div class="label">Pangkalahatang marka sa 100</div>
+    </div>
+    <div class="criteria" id="criteria-list"></div>
+  </section>
+</div>
+
+<script>
+  const steps = [...document.querySelectorAll('#steps .dot')];
+  const screens = {
+    intro: document.getElementById('screen-intro'),
+    passage: document.getElementById('screen-passage'),
+    question: document.getElementById('screen-question'),
+    results: document.getElementById('screen-results'),
+  };
+  const order = ['intro', 'passage', 'question', 'results'];
+
+  function goTo(name) {
+    order.forEach((n, i) => {
+      screens[n].classList.toggle('visible', n === name);
+      const idx = order.indexOf(name);
+      steps[i].classList.toggle('done', i < idx);
+      steps[i].classList.toggle('active', i === idx);
+    });
+  }
+  goTo('intro');
+  document.getElementById('btn-start').addEventListener('click', () => goTo('passage'));
+
+  // --- Speech recognition setup ---
+  const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let recognition = null;
+  if (SpeechRecognitionAPI) {
+    recognition = new SpeechRecognitionAPI();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = 'fil-PH';
+  }
+
+  function wireRecorder({ micBtn, transcriptEl, nextBtn, onDone }) {
+    let recording = false;
+    let finalTranscript = '';
+    let startTime = 0;
+
+    micBtn.addEventListener('click', () => {
+      if (!recognition) {
+        transcriptEl.textContent = 'Hindi suportado ng browser na ito ang speech recognition.';
+        return;
+      }
+      if (!recording) {
+        recording = true;
+        finalTranscript = '';
+        startTime = performance.now();
+        transcriptEl.textContent = '';
+        micBtn.textContent = '⏹️ Itigil';
+        micBtn.classList.add('recording');
+        try { recognition.start(); } catch (e) {}
+      } else {
+        recording = false;
+        micBtn.textContent = '🎙️ Mag-record';
+        micBtn.classList.remove('recording');
+        recognition.stop();
+        const duration = Math.max((performance.now() - startTime) / 1000, 1);
+        nextBtn.disabled = finalTranscript.trim().length === 0;
+        onDone(finalTranscript.trim(), duration);
+      }
+    });
+
+    recognition && recognition.addEventListener && null; // no-op guard
+
+    const handler = (event) => {
+      // Only the currently active recorder should react; guarded by 'recording' flag.
+      if (!recording) return;
+      let interim = '';
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const text = event.results[i][0].transcript;
+        if (event.results[i].isFinal) finalTranscript += text + ' ';
+        else interim += text;
+      }
+      transcriptEl.textContent = (finalTranscript + interim).trim();
+    };
+
+    return handler;
+  }
+
+  let passageResult = { transcript: '', duration: 1 };
+  let questionResult = { transcript: '', duration: 1 };
+
+  const passageHandler = wireRecorder({
+    micBtn: document.getElementById('btn-mic-passage'),
+    transcriptEl: document.getElementById('transcript-passage'),
+    nextBtn: document.getElementById('btn-next-passage'),
+    onDone: (t, d) => { passageResult = { transcript: t, duration: d }; }
+  });
+
+  const questionHandler = wireRecorder({
+    micBtn: document.getElementById('btn-mic-question'),
+    transcriptEl: document.getElementById('transcript-question'),
+    nextBtn: document.getElementById('btn-next-question'),
+    onDone: (t, d) => { questionResult = { transcript: t, duration: d }; }
+  });
+
+  // Route recognition results to whichever screen is active.
+  if (recognition) {
+    recognition.addEventListener('result', (event) => {
+      if (screens.passage.classList.contains('visible')) passageHandler(event);
+      else if (screens.question.classList.contains('visible')) questionHandler(event);
+    });
+  }
+
+  document.getElementById('btn-next-passage').addEventListener('click', () => goTo('question'));
+  document.getElementById('btn-next-question').addEventListener('click', () => {
+    showResults();
+    goTo('results');
+  });
+
+  // --- Scoring ---
+  function accuracyScore(expectedText, transcript) {
+    const expectedWords = expectedText.toLowerCase().replace(/[.,]/g, '').split(/\s+/).filter(Boolean);
+    const saidWords = new Set(transcript.toLowerCase().replace(/[.,]/g, '').split(/\s+/));
+    const matched = expectedWords.filter(w => saidWords.has(w)).length;
+    return Math.round((matched / expectedWords.length) * 100);
+  }
+  function fluencyScore(transcript, durationSec) {
+    const words = transcript.trim().split(/\s+/).filter(Boolean);
+    if (words.length === 0) return 0;
+    const wpm = words.length / (durationSec / 60);
+    const fillerCount = (transcript.match(/\b(ano|kasi|parang|ay)\b/gi) || []).length;
+    const fillerRatio = fillerCount / words.length;
+    const speedScore = (wpm >= 70 && wpm <= 150) ? 100 : Math.max(0, 100 - Math.abs(wpm - 110));
+    const fillerScore = Math.max(0, 100 - fillerRatio * 250);
+    return Math.round(speedScore * 0.6 + fillerScore * 0.4);
+  }
+  function rangeScore(transcript) {
+    const words = transcript.toLowerCase().split(/\s+/).filter(Boolean);
+    if (words.length === 0) return 0;
+    const uniqueWords = new Set(words).size;
+    return Math.round(Math.min((uniqueWords / words.length) * 150, 100));
+  }
+  function coherenceScore(transcript) {
+    const words = transcript.split(/\s+/).filter(Boolean);
+    if (words.length === 0) return 0;
+    const connectors = (transcript.match(/\b(kasi|dahil|kaya|tapos)\b/gi) || []).length;
+    const expected = Math.max(words.length / 15, 1);
+    return Math.round(Math.min((connectors / expected) * 100, 100));
+  }
+
+  function showResults() {
+    const passageText = document.getElementById('passage-text').textContent;
+    const accuracy = accuracyScore(passageText, passageResult.transcript);
+    const fluency = fluencyScore(questionResult.transcript, questionResult.duration);
+    const range = rangeScore(questionResult.transcript);
+    const coherence = coherenceScore(questionResult.transcript);
+    const overall = Math.round(accuracy * 0.25 + fluency * 0.3 + range * 0.2 + coherence * 0.25);
+
+    document.getElementById('overall-num').textContent = overall;
+
+    const criteria = [
+      { name: 'Katumpakan sa Pagbasa', val: accuracy, note: 'Gaano kalapit ang binasa mo sa orihinal na talata.' },
+      { name: 'Katatasan (Fluency)', val: fluency, note: 'Bilis ng pagsasalita at kaunting hesitasyon.' },
+      { name: 'Saklaw ng Bokabularyo', val: range, note: 'Dami ng iba\u2019t ibang salitang ginamit.' },
+      { name: 'Koherens', val: coherence, note: 'Paggamit ng mga pang-ugnay upang dumaloy ang ideya.' },
+    ];
+
+    const list = document.getElementById('criteria-list');
+    list.innerHTML = '';
+    criteria.forEach(c => {
+      const div = document.createElement('div');
+      div.className = 'criterion';
+      div.innerHTML = `
+        <div class="top"><span class="name">${c.name}</span><span class="val">${c.val}/100</span></div>
+        <div class="bar"><span style="width:${c.val}%"></span></div>
+        <div class="note">${c.note}</div>
+      `;
+      list.appendChild(div);
+    });
+  }
+</script>
+</body>
+</html>

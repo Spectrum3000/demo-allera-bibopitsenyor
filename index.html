@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>BIBO: English Speaking Test</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">✦</span><span>BIBO</span></div>
+    <div class="status"><span class="status-dot"></span> Learning mode</div>
+  </header>
+
+  <main>
+    <section id="screen-intro" class="screen visible home-screen">
+      <div class="hero-copy">
+        <p class="eyebrow">Good afternoon, Miguel! <span>☀️</span></p>
+        <h1>Your speaking<br><em>adventure</em> starts here.</h1>
+        <p class="hero-subtitle">Small steps, brave voices, and a little fun every day.</p>
+      </div>
+      <div class="level-card">
+        <div class="level-icon">🦜</div>
+        <div class="level-info"><strong>Story Teller</strong><span>Level 4 · Keep going!</span><div class="level-track"><span></span></div></div>
+        <span class="level-stars">⭐</span>
+      </div>
+      <div class="section-heading"><span>KEEP GOING</span><span class="section-kicker">2 min today</span></div>
+      <button class="quest-card" id="btn-start">
+        <span class="quest-icon">🎙️</span><span class="quest-copy"><strong>Tell me about your day!</strong><small>Speak for a minute</small></span><span class="quest-arrow">›</span>
+      </button>
+      <div class="stats-row"><div class="stat-card coral-stat"><strong>7 🔥</strong><span>Day streak</span></div><div class="stat-card purple-stat"><strong>128 ⭐</strong><span>Stars earned</span></div></div>
+      <div class="tip-strip"><span>💡</span><span>Try using a new word today!</span></div>
+    </section>
+
+    <section id="screen-passage" class="screen speaking-screen">
+      <div class="screen-heading"><button class="icon-button" data-nav="home" aria-label="Back to home">×</button><div><p class="eyebrow">SPEAKING EXERCISE</p><h2>Tell your story</h2></div><span class="step-count">1/2</span></div>
+      <div class="progress-track"><span></span><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="prompt-card"><div class="prompt-avatar">🦜</div><div><span class="prompt-label">READ ALOUD</span><p class="passage" id="passage-text">A new story is getting ready...</p></div><button class="play-button btn-replay" id="btn-replay-passage">🔊 Play again</button></div>
+      <div class="record-zone"><div class="record-orbit"><button class="record-button btn-mic" id="btn-mic-passage" aria-label="Start recording"><span></span></button></div><strong>Tap to talk!</strong><span class="record-time">00:00</span></div>
+      <div class="transcript" id="transcript-passage"></div><p class="hint">Your words will be detected automatically while you speak.</p>
+      <div class="row"><span></span><button class="btn-primary next-button" id="btn-next-passage" disabled>Next <span>→</span></button></div>
+    </section>
+
+    <section id="screen-question" class="screen speaking-screen">
+      <div class="screen-heading"><button class="icon-button" data-nav="home" aria-label="Back to home">×</button><div><p class="eyebrow">SPEAKING EXERCISE</p><h2>Tell your story</h2></div><span class="step-count">2/2</span></div>
+      <div class="progress-track question-progress"><span></span><span></span><i></i><i></i><i></i><i></i></div>
+      <div class="prompt-card question-card"><div class="prompt-avatar">💬</div><div><span class="prompt-label">YOUR TURN</span><p class="prompt-text" id="q-text">A new question is getting ready...</p></div><button class="play-button btn-replay" id="btn-replay-question">🔊 Play again</button></div>
+      <div class="record-zone"><div class="record-orbit"><button class="record-button btn-mic" id="btn-mic-question" aria-label="Start recording"><span></span></button></div><strong>Tap to talk!</strong><span class="record-time">00:00</span></div>
+      <div class="transcript" id="transcript-question"></div><p class="hint">Your words will be detected automatically while you speak.</p>
+      <div class="row"><span></span><button class="btn-primary next-button" id="btn-next-question" disabled>See results <span>→</span></button></div>
+    </section>
+
+    <section id="screen-results" class="screen map-screen">
+      <p class="eyebrow">YOUR ADVENTURE 🗺️</p><h2>Keep growing!</h2>
+      <div class="badge-card"><span class="badge-emoji">🏆</span><div><span class="prompt-label">CURRENT BADGE</span><strong>Story Teller</strong><p>Up from Word Builder three weeks ago!</p></div></div>
+      <div class="section-heading"><span>HOW YOUR TALKING IS GROWING</span><span class="trend">↗</span></div>
+      <div class="chart" aria-label="Weekly progress"><div><i style="height:22%"></i><span>Wk1</span></div><div><i style="height:34%"></i><span>Wk2</span></div><div><i style="height:28%"></i><span>Wk3</span></div><div><i class="filled" style="height:67%"></i><span>Wk4</span></div><div><i class="filled" style="height:80%"></i><span>Wk5</span></div><div><i class="filled" style="height:92%"></i><span>Wk6</span></div></div>
+      <div class="section-heading wins-heading"><span>RECENT WINS</span><span class="section-kicker">See all</span></div>
+      <div class="win-card"><span>🦜</span><div><strong>Talked with Bibo!</strong><small>Today · 6 min</small></div><b>82 ⭐</b></div>
+      <div class="win-card"><span>🎙️</span><div><strong>Read-aloud quest</strong><small>Yesterday · 4 min</small></div><b>76 ⭐</b></div>
+      <div class="result-details">
+        <div class="results-title"><span>YOUR AUDIO STYLE</span><small>Based on your recording</small></div>
+        <div class="score-hero"><div class="num" id="overall-num">–</div><div class="label">Speaking score out of 100</div><div class="cefr-badge" id="cefr-badge"></div></div>
+        <div class="answer-quote" id="answer-quote"></div>
+        <div class="audio-style" id="audio-style"></div>
+        <div class="criteria" id="criteria-list"></div>
+        <div class="feedback-box" id="feedback-box"></div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <button class="nav-item active" data-nav="home"><span>🏠</span><small>Home</small></button>
+    <button class="nav-item" data-nav="play"><span>🎯</span><small>Play</small></button>
+    <button class="nav-item" data-nav="map"><span>🗺️</span><small>Map</small></button>
+    <button class="nav-item" data-nav="me"><span>🙂</span><small>Me</small></button>
+  </nav>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

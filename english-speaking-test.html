@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>ALAS: English Speaking Test</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="app">
+  <div class="steps" id="steps">
+    <div class="dot" data-step="0"></div>
+    <div class="dot" data-step="1"></div>
+    <div class="dot" data-step="2"></div>
+    <div class="dot" data-step="3"></div>
+  </div>
+
+  <section id="screen-intro" class="screen visible card">
+    <p class="eyebrow">Diagnostic Test</p>
+    <h1>English Speaking Test</h1>
+    <p>There are two parts: you'll listen to and read a short passage aloud, then answer a question in your own words. This test needs access to your microphone and speakers.</p>
+    <div class="row" style="justify-content:flex-end;">
+      <button class="btn-primary" id="btn-start">Start the test</button>
+    </div>
+  </section>
+
+  <section id="screen-passage" class="screen card">
+    <p class="eyebrow">Part 1 · Read Aloud</p>
+    <h2>Listen, then read the passage aloud</h2>
+    <p class="passage" id="passage-text">Every morning, Maya walks her dog around the park before school. She stops by the small bakery on the corner, where the owner always saves her a warm roll. By the time she reaches her classroom, she is ready to start the day.</p>
+    <button class="btn-replay" id="btn-replay-passage">🔊 Play</button>
+    <button class="btn-mic" id="btn-mic-passage">🎙️ Record</button>
+    <div class="transcript" id="transcript-passage"></div>
+    <p class="hint">Listen to the passage, then record yourself reading it aloud from start to finish.</p>
+    <div class="row">
+      <span></span>
+      <button class="btn-primary" id="btn-next-passage" disabled>Next</button>
+    </div>
+  </section>
+
+  <section id="screen-question" class="screen card">
+    <p class="eyebrow">Part 2 · Free Speaking</p>
+    <h2>Answer the question in your own words</h2>
+    <p class="prompt-text" id="q-text">Describe a typical day in your life.</p>
+    <button class="btn-replay" id="btn-replay-question">🔊 Play</button>
+    <button class="btn-mic" id="btn-mic-question">🎙️ Record</button>
+    <div class="transcript" id="transcript-question"></div>
+    <p class="hint">Speak for about 30–60 seconds. There's no wrong answer — we're listening to how you express it.</p>
+    <div class="row">
+      <span></span>
+      <button class="btn-primary" id="btn-next-question" disabled>See results</button>
+    </div>
+  </section>
+
+  <section id="screen-results" class="screen card">
+    <p class="eyebrow">Results</p>
+    <div class="score-hero">
+      <div class="num" id="overall-num">–</div>
+      <div class="label">Overall score out of 100</div>
+      <div class="cefr-badge" id="cefr-badge"></div>
+    </div>
+    <div class="criteria" id="criteria-list"></div>
+    <div class="feedback-box" id="feedback-box"></div>
+  </section>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
